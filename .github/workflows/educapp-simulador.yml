@@ -39,6 +39,7 @@ jobs:
             build
 
       - name: Instalar y abrir en iPhone 17 con iOS 26.5
+        timeout-minutes: 6
         shell: bash
         run: |
           app="$RUNNER_TEMP/educapp-build/$APP_NAME.app"
@@ -51,9 +52,16 @@ jobs:
             | map(select(.name == "iPhone 17" and .isAvailable))
             | first.udid
           ')"
-          xcrun simctl bootstatus "$dispositivo" -b
-          xcrun simctl install "$dispositivo" "$app"
-          resultado="$(xcrun simctl launch "$dispositivo" "$bundle_id")"
+          xcrun simctl boot "$dispositivo"
+          resultado=""
+          for intento in {1..24}; do
+            if xcrun simctl install "$dispositivo" "$app" &&
+               resultado="$(xcrun simctl launch "$dispositivo" "$bundle_id")"; then
+              break
+            fi
+            sleep 5
+          done
+          test -n "$resultado"
           echo "$resultado"
           pid="${resultado##*: }"
           sleep 5
