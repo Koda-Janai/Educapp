@@ -6,6 +6,8 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/educapp-simulador.yml'
+      - 'Login1/**'
+      - 'Login1.xcodeproj/project.pbxproj'
 
 permissions:
   contents: read
@@ -35,6 +37,7 @@ jobs:
             -sdk iphonesimulator \
             ARCHS=arm64 \
             CODE_SIGNING_ALLOWED=NO \
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS="DEBUG EDUCAPP_APPETIZE" \
             IPHONEOS_DEPLOYMENT_TARGET=26.0 \
             CONFIGURATION_BUILD_DIR="$RUNNER_TEMP/educapp-build" \
             build
