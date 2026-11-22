@@ -48,7 +48,7 @@ jobs:
           test "$(/usr/libexec/PlistBuddy -c 'Print :DTPlatformName' "$plist")" = iphonesimulator
           test "$(/usr/libexec/PlistBuddy -c 'Print :MinimumOSVersion' "$plist")" = 26.0
           ejecutable="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$plist")"
-          xcrun lipo -verify_arch arm64 "$app/$ejecutable"
+          test "$(xcrun lipo -archs "$app/$ejecutable")" = arm64
           ditto -c -k --sequesterRsrc --keepParent "$app" "$RUNNER_TEMP/Educapp-Appetize.zip"
 
       - name: Guardar el ZIP para Appetize
