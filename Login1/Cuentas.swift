@@ -12,13 +12,21 @@ struct Cuenta: Codable {
 }
 
 enum Cuentas {
+    #if EDUCAPP_APPETIZE
+    // La compilación de Appetize no tiene firma ni acceso al Llavero.
+    private static var cuentasDePrueba: [Cuenta] = []
+    #else
     private static let consulta: [String: Any] = [
         kSecClass as String: kSecClassGenericPassword,
         kSecAttrService as String: (Bundle.main.bundleIdentifier ?? "Educapp") + ".cuentas",
         kSecAttrAccount as String: "cuentas-locales"
     ]
+    #endif
 
     static func leer() throws -> [Cuenta] {
+        #if EDUCAPP_APPETIZE
+        return cuentasDePrueba
+        #else
         var solicitud = consulta
         solicitud[kSecReturnData as String] = true
         solicitud[kSecMatchLimit as String] = kSecMatchLimitOne
@@ -31,6 +39,7 @@ enum Cuentas {
             throw ErrorCuenta.almacenamiento
         }
         return try JSONDecoder().decode([Cuenta].self, from: datos)
+        #endif
     }
 
     static func guardar(_ cuenta: Cuenta) throws {
@@ -47,6 +56,9 @@ enum Cuentas {
             cuentas.append(cuenta)
         }
 
+        #if EDUCAPP_APPETIZE
+        cuentasDePrueba = cuentas
+        #else
         let datos = try JSONEncoder().encode(cuentas)
         let cambios = [kSecValueData as String: datos]
         var estado = SecItemUpdate(consulta as CFDictionary, cambios as CFDictionary)
@@ -57,6 +69,7 @@ enum Cuentas {
             estado = SecItemAdd(nueva as CFDictionary, nil)
         }
         guard estado == errSecSuccess else { throw ErrorCuenta.almacenamiento }
+        #endif
     }
 }
 
