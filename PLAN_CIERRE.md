@@ -27,6 +27,7 @@ El proyecto conserva el target IniciodeSesionOct, UIKit, los cuatro controladore
 La revisión en Windows cubre la estructura de archivos y las referencias del storyboard. La compilación con UIKit y la validación visual requieren Xcode en macOS.
 ## Compilar desde Windows con GitHub Actions
 
-Sube el proyecto y la carpeta .github a un repositorio de GitHub. En **Actions → Compilar Educapp para simulador**, pulsa **Run workflow**. El flujo es manual y usa el ejecutor estándar con macOS para evitar compilaciones automáticas.
+Sube el proyecto y la carpeta .github a un repositorio de GitHub. En **Actions → Compilar Educapp para simulador**, pulsa **Run workflow**. El flujo usa un ejecutor estándar con macOS y puede iniciarse manualmente. También se inicia cuando se incorpora o modifica la configuración del flujo en main.
 
 Cuando termine, descarga **Educapp-simulador** en el apartado **Artifacts**, extrae el ZIP exterior y carga el archivo **Educapp-Appetize.zip** en Appetize. La compilación de prueba usa iOS 26.0 y ARM64 para el simulador. El objetivo del proyecto en Xcode sigue siendo iOS 26.5.
+

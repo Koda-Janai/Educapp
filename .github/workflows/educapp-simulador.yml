@@ -2,6 +2,10 @@ name: Compilar Educapp para simulador
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/educapp-simulador.yml'
 
 permissions:
   contents: read
