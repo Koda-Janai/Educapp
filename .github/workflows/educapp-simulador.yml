@@ -1,4 +1,4 @@
-name: Compilar Educapp para simulador
+name: Verificar Educapp en Xcode
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 jobs:
-  compilar:
+  verificar:
     runs-on: macos-26
     timeout-minutes: 15
     env:
@@ -26,7 +26,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Compilar para iOS Simulator
+      - name: Compilar con la configuración del proyecto
         shell: bash
         run: |
           xcodebuild -version
@@ -35,29 +35,35 @@ jobs:
             -target "$APP_NAME" \
             -configuration Debug \
             -sdk iphonesimulator \
-            ARCHS=arm64 \
-            CODE_SIGNING_ALLOWED=NO \
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS="DEBUG EDUCAPP_APPETIZE" \
-            IPHONEOS_DEPLOYMENT_TARGET=26.0 \
             CONFIGURATION_BUILD_DIR="$RUNNER_TEMP/educapp-build" \
             build
 
-      - name: Verificar y empaquetar la app
+      - name: Instalar y abrir en iPhone 17 con iOS 26.5
         shell: bash
         run: |
           app="$RUNNER_TEMP/educapp-build/$APP_NAME.app"
           plist="$app/Info.plist"
-          test -d "$app"
-          test "$(/usr/libexec/PlistBuddy -c 'Print :DTPlatformName' "$plist")" = iphonesimulator
-          test "$(/usr/libexec/PlistBuddy -c 'Print :MinimumOSVersion' "$plist")" = 26.0
-          ejecutable="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$plist")"
-          test "$(xcrun lipo -archs "$app/$ejecutable")" = arm64
-          ditto -c -k --sequesterRsrc --keepParent "$app" "$RUNNER_TEMP/Educapp-Appetize.zip"
+          test "$(/usr/libexec/PlistBuddy -c 'Print :MinimumOSVersion' "$plist")" = 26.5
+          bundle_id="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$plist")"
 
-      - name: Guardar el ZIP para Appetize
+          dispositivo="$(xcrun simctl list devices available -j | jq -er '
+            .devices["com.apple.CoreSimulator.SimRuntime.iOS-26-5"]
+            | map(select(.name == "iPhone 17" and .isAvailable))
+            | first.udid
+          ')"
+          xcrun simctl bootstatus "$dispositivo" -b
+          xcrun simctl install "$dispositivo" "$app"
+          resultado="$(xcrun simctl launch "$dispositivo" "$bundle_id")"
+          echo "$resultado"
+          pid="${resultado##*: }"
+          sleep 5
+          kill -0 "$pid"
+          xcrun simctl io "$dispositivo" screenshot "$RUNNER_TEMP/Educapp-inicio.png"
+
+      - name: Guardar captura de arranque
         uses: actions/upload-artifact@v4
         with:
-          name: Educapp-simulador
-          path: ${{ runner.temp }}/Educapp-Appetize.zip
+          name: Educapp-inicio-iOS-26.5
+          path: ${{ runner.temp }}/Educapp-inicio.png
           if-no-files-found: error
           retention-days: 7
