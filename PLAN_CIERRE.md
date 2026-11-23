@@ -1,6 +1,6 @@
 # Plan de cierre de Educapp
 
-El proyecto conserva el target IniciodeSesionOct, UIKit, los cuatro controladores originales y Main.storyboard como punto de arranque. Las pantallas usan Auto Layout desde Swift. La navegación principal tiene tres pestañas, Lecciones, Perfil y Quiz. La implementación toma como referencia el [diseño de Educapp en Figma](https://www.figma.com/design/aTMtzR7Ppk6f9Iya5Gyuo2/261119_EducappXcode_EquipoDinamita?node-id=0-1).
+El proyecto conserva el target IniciodeSesionOct, UIKit, los controladores originales y Main.storyboard como punto de arranque. Las seis escenas tienen sus controles y restricciones de Auto Layout en Interface Builder. La navegación principal tiene tres pestañas, Lecciones, Perfil y Quiz. La implementación toma como referencia el [diseño de Educapp en Figma](https://www.figma.com/design/aTMtzR7Ppk6f9Iya5Gyuo2/261119_EducappXcode_EquipoDinamita?node-id=0-1).
 
 ## 1. Compilar y verificar el flujo en macOS
 

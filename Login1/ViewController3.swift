@@ -4,13 +4,21 @@ class ViewController3: PantallaEducapp {
     var cuenta: Cuenta?
     var alGuardar: ((Cuenta) -> Void)?
 
-    private var usuario: UITextField!
-    private var nombre: UITextField!
-    private var apellido: UITextField!
-    private var edad: UITextField!
-    private var direccion: UITextField!
-    private var contrasena: UITextField!
-    private var confirmacion: UITextField!
+    @IBOutlet private weak var usuario: UITextField!
+    @IBOutlet private weak var nombre: UITextField!
+    @IBOutlet private weak var apellido: UITextField!
+    @IBOutlet private weak var edad: UITextField!
+    @IBOutlet private weak var direccion: UITextField!
+    @IBOutlet private weak var contrasena: UITextField!
+    @IBOutlet private weak var confirmacion: UITextField!
+
+    @IBOutlet private weak var encabezado: UILabel!
+    @IBOutlet private weak var tituloClave: UILabel!
+    @IBOutlet private weak var botonGuardar: UIButton!
+
+    @IBAction private func mostrarContrasena(_ sender: UIButton) {
+        alternarVisibilidad(sender.tag == 1 ? confirmacion : contrasena, boton: sender)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,20 +29,12 @@ class ViewController3: PantallaEducapp {
             )
         }
 
-        encabezado(edicion ? "Actualizar datos" : "Registra tu cuenta")
-        usuario = campo("Nombre de usuario")
-        usuario.autocapitalizationType = .none
-        usuario.autocorrectionType = .no
-        nombre = campo("Nombre")
-        apellido = campo("Apellido")
-        edad = campo("Edad")
-        edad.keyboardType = .numberPad
-        direccion = campo("Dirección")
-        contenido.addArrangedSubview(etiqueta(edicion ? "Actualiza tu contraseña" : "Crea una contraseña", estilo: .headline))
-        contrasena = campo(edicion ? "Nueva contraseña (opcional)" : "Contraseña", seguro: true)
-        contrasena.textContentType = .newPassword
-        confirmacion = campo("Confirmar contraseña", seguro: true)
-        confirmacion.textContentType = .newPassword
+        if edicion {
+            encabezado.text = "Actualizar datos"
+            tituloClave.text = "Actualiza tu contraseña"
+            contrasena.placeholder = "Nueva contraseña (opcional)"
+            botonGuardar.setTitle("Actualizar", for: .normal)
+        }
 
         if let cuenta = cuenta {
             usuario.text = cuenta.usuario
@@ -43,14 +43,13 @@ class ViewController3: PantallaEducapp {
             edad.text = String(cuenta.edad)
             direccion.text = cuenta.direccion
         }
-        boton(edicion ? "Actualizar" : "Registrarse") { [weak self] in self?.guardar() }
     }
 
     @objc private func cancelar() {
         dismiss(animated: true)
     }
 
-    private func guardar() {
+    @IBAction private func guardar(_ sender: UIButton) {
         view.endEditing(true)
         do {
             let nueva = try datosDelFormulario()

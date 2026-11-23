@@ -1,26 +1,37 @@
 import UIKit
 
 final class Quiz: PantallaEducapp {
+    @IBOutlet private weak var panelInicio: UIStackView!
+    @IBOutlet private weak var panelProgreso: UIStackView!
+    @IBOutlet private weak var panelPregunta: UIStackView!
+    @IBOutlet private weak var panelRespuesta: UIStackView!
+    @IBOutlet private weak var panelResultado: UIStackView!
+    @IBOutlet private weak var categoria: UILabel!
+    @IBOutlet private weak var numeroPregunta: UILabel!
+    @IBOutlet private weak var progreso: UIProgressView!
+    @IBOutlet private weak var pregunta: UILabel!
+    @IBOutlet private var botonesRespuesta: [UIButton]!
+    @IBOutlet private weak var estadoRespuesta: UILabel!
+    @IBOutlet private weak var explicacion: UILabel!
+    @IBOutlet private weak var botonAvanzar: UIButton!
+    @IBOutlet private weak var puntuacion: UILabel!
+
     private let temas = Tema.catalogo
     private var indice = 0
     private var aciertos = 0
     private var respondida = false
+    private var opciones: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        mostrarInicio()
+        mostrar(panelInicio)
     }
 
-    private func mostrarInicio() {
-        limpiarContenido()
-        encabezado("Quiz final")
-        icono("scope")
-        contenido.addArrangedSubview(etiqueta("Contenidos del quiz", estilo: .title2))
-        contenido.addArrangedSubview(etiqueta("Responde una pregunta por cada lección. Después de cada respuesta podrás leer una explicación."))
-        boton("Poner a prueba mis conocimientos") { [weak self] in self?.iniciar() }
+    @IBAction private func volverAlInicio(_ sender: UIButton) {
+        mostrar(panelInicio)
     }
 
-    private func iniciar() {
+    @IBAction private func iniciar(_ sender: UIButton) {
         indice = 0
         aciertos = 0
         mostrarPregunta()
@@ -28,57 +39,52 @@ final class Quiz: PantallaEducapp {
 
     private func mostrarPregunta() {
         respondida = false
-        limpiarContenido()
         let tema = temas[indice]
-        mostrarProgreso(tema)
-        encabezado(tema.pregunta, color: PantallaEducapp.pizarra)
-        for opcion in (tema.distractores + [tema.correcta]).shuffled() {
-            boton(opcion) { [weak self] in self?.responder(opcion) }
+        categoria.text = "Quiz final · \(tema.nombre)"
+        numeroPregunta.text = "Pregunta \(indice + 1) de \(temas.count)"
+        progreso.progress = Float(indice) / Float(temas.count)
+        pregunta.text = tema.pregunta
+        opciones = (tema.distractores + [tema.correcta]).shuffled()
+        for boton in botonesRespuesta {
+            boton.setTitle(opciones[boton.tag], for: .normal)
         }
+        mostrar(panelPregunta)
     }
 
-    private func mostrarProgreso(_ tema: Tema) {
-        encabezado("Quiz final\n\(tema.nombre)")
-        contenido.addArrangedSubview(etiqueta("Pregunta \(indice + 1) de \(temas.count)", centrada: true))
-        let progreso = UIProgressView(progressViewStyle: .default)
-        progreso.progress = Float(indice + (respondida ? 1 : 0)) / Float(temas.count)
-        progreso.progressTintColor = PantallaEducapp.pizarra
-        progreso.isAccessibilityElement = false
-        contenido.addArrangedSubview(progreso)
-    }
-
-    private func responder(_ opcion: String) {
-        guard !respondida else { return }
+    @IBAction private func responder(_ sender: UIButton) {
+        guard !respondida, opciones.indices.contains(sender.tag) else { return }
         respondida = true
         let tema = temas[indice]
-        let correcta = opcion == tema.correcta
+        let correcta = opciones[sender.tag] == tema.correcta
         if correcta { aciertos += 1 }
 
-        limpiarContenido()
-        mostrarProgreso(tema)
-        encabezado(correcta ? "Respuesta correcta" : "Respuesta incorrecta",
-                   color: correcta ? UIColor(red: 0.16, green: 0.42, blue: 0.27, alpha: 1)
-                                   : UIColor(red: 0.64, green: 0.23, blue: 0.21, alpha: 1))
-        contenido.addArrangedSubview(etiqueta(tema.explicacion))
-        let ultima = indice == temas.count - 1
-        boton(ultima ? "Ver resultado" : "Siguiente pregunta") { [weak self] in
-            guard let self = self else { return }
-            if ultima {
-                self.mostrarResultado()
-            } else {
-                self.indice += 1
-                self.mostrarPregunta()
-            }
-        }
-        UIAccessibility.post(notification: .screenChanged, argument: contenido.arrangedSubviews.first)
+        progreso.progress = Float(indice + 1) / Float(temas.count)
+        estadoRespuesta.text = correcta ? "Respuesta correcta" : "Respuesta incorrecta"
+        estadoRespuesta.backgroundColor = correcta ? UIColor(red: 0.16, green: 0.42, blue: 0.27, alpha: 1)
+                                                   : UIColor(red: 0.64, green: 0.23, blue: 0.21, alpha: 1)
+        explicacion.text = tema.explicacion
+        botonAvanzar.setTitle(indice == temas.count - 1 ? "Ver resultado" : "Siguiente pregunta", for: .normal)
+        mostrar(panelRespuesta)
+        UIAccessibility.post(notification: .screenChanged, argument: estadoRespuesta)
     }
 
-    private func mostrarResultado() {
-        limpiarContenido()
-        encabezado("Resultado del quiz")
-        icono("flag.checkered")
-        contenido.addArrangedSubview(etiqueta("\(aciertos) de \(temas.count) respuestas correctas", estilo: .title2, centrada: true))
-        boton("Volver a intentar") { [weak self] in self?.iniciar() }
-        boton("Volver al inicio del quiz", secundario: true) { [weak self] in self?.mostrarInicio() }
+    @IBAction private func avanzar(_ sender: UIButton) {
+        guard respondida, !panelRespuesta.isHidden else { return }
+        if indice == temas.count - 1 {
+            puntuacion.text = "\(aciertos) de \(temas.count) respuestas correctas"
+            mostrar(panelResultado)
+        } else {
+            indice += 1
+            mostrarPregunta()
+        }
+    }
+
+    private func mostrar(_ panel: UIStackView) {
+        panelInicio.isHidden = panel !== panelInicio
+        panelPregunta.isHidden = panel !== panelPregunta
+        panelRespuesta.isHidden = panel !== panelRespuesta
+        panelResultado.isHidden = panel !== panelResultado
+        panelProgreso.isHidden = panel !== panelPregunta && panel !== panelRespuesta
+        desplazarAlInicio()
     }
 }

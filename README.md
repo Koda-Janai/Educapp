@@ -1,6 +1,6 @@
 # Educapp
 
-Educapp es una app para iPhone escrita en Swift con UIKit. Usa `Main.storyboard` para iniciar la app y definir las escenas de acceso, registro, perfil y lecciones. Los controladores construyen la interfaz con Auto Layout en Swift.
+Educapp es una app para iPhone escrita en Swift con UIKit. Abre `Login1/Base.lproj/Main.storyboard` en Interface Builder para editar las escenas de acceso, registro, perfil, catálogo, detalle de lección y quiz. Los botones, campos, etiquetas y restricciones se editan en el Storyboard. Las conexiones `IBOutlet` e `IBAction` enlazan los controles con la lógica escrita en Swift.
 
 ## Requisitos
 

@@ -1,24 +1,14 @@
 import UIKit
 
 class ViewController: PantallaEducapp {
-    private var usuario: UITextField!
-    private var contrasena: UITextField!
+    @IBOutlet private weak var usuario: UITextField!
+    @IBOutlet private weak var contrasena: UITextField!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        icono("person.crop.circle.fill")
-        encabezado("Iniciar sesión")
-        usuario = campo("Nombre de usuario")
-        usuario.textContentType = .username
-        usuario.autocapitalizationType = .none
-        usuario.autocorrectionType = .no
-        contrasena = campo("Contraseña", seguro: true)
-        contrasena.textContentType = .password
-        boton("Iniciar sesión") { [weak self] in self?.ingresar() }
-        boton("Crear una cuenta", secundario: true) { [weak self] in self?.registrar() }
+    @IBAction private func mostrarContrasena(_ sender: UIButton) {
+        alternarVisibilidad(contrasena, boton: sender)
     }
 
-    private func registrar() {
+    @IBAction private func registrar(_ sender: UIButton) {
         guard let formulario = storyboard?.instantiateViewController(withIdentifier: "Registro") as? ViewController3 else {
             return
         }
@@ -30,7 +20,7 @@ class ViewController: PantallaEducapp {
         present(UINavigationController(rootViewController: formulario), animated: true)
     }
 
-    private func ingresar() {
+    @IBAction private func ingresar(_ sender: UIButton) {
         view.endEditing(true)
         let nombre = (usuario.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         let clave = contrasena.text ?? ""
@@ -50,7 +40,8 @@ class ViewController: PantallaEducapp {
 
     private func abrirEducapp(_ cuenta: Cuenta) {
         guard let temas = storyboard?.instantiateViewController(withIdentifier: "Temas") as? Temas,
-              let perfil = storyboard?.instantiateViewController(withIdentifier: "Perfil") as? PantallaBienvenida else {
+              let perfil = storyboard?.instantiateViewController(withIdentifier: "Perfil") as? PantallaBienvenida,
+              let quiz = storyboard?.instantiateViewController(withIdentifier: "Quiz") as? Quiz else {
             return
         }
         perfil.cuenta = cuenta
@@ -61,7 +52,7 @@ class ViewController: PantallaEducapp {
         pestanas.viewControllers = [
             pestana(temas, titulo: "Lecciones", icono: "house.fill"),
             pestana(perfil, titulo: "Perfil", icono: "person.fill"),
-            pestana(Quiz(), titulo: "Quiz", icono: "flag.fill")
+            pestana(quiz, titulo: "Quiz", icono: "flag.fill")
         ]
         let apariencia = UITabBarAppearance()
         apariencia.configureWithOpaqueBackground()
