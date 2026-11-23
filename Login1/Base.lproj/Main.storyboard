@@ -747,7 +747,7 @@
                                 <rect key="frame" x="0" y="59" width="393" height="759" />
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" id="edu-209-sb" translatesAutoresizingMaskIntoConstraints="NO">
-                                        <rect key="frame" x="20" y="20" width="353" height="318" />
+                                        <rect key="frame" x="20" y="20" width="353" height="507" />
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Series" textAlignment="center" numberOfLines="0" id="edu-210-sb" translatesAutoresizingMaskIntoConstraints="NO">
                                                 <rect key="frame" x="0" y="0" width="353" height="56" />
@@ -758,15 +758,15 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="24" />
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
                                             </label>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="tv.fill" catalog="system" id="edu-213-sb" translatesAutoresizingMaskIntoConstraints="NO">
-                                                <rect key="frame" x="0" y="68" width="353" height="70" />
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="leccion_series" id="edu-213-sb" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="0" y="68" width="353" height="199" />
                                                 <color key="tintColor" red="0.137" green="0.212" blue="0.267" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="70" id="edu-215-sb" priority="999" />
+                                                    <constraint firstAttribute="height" constant="199" id="edu-215-sb" priority="999" />
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" buttonType="system" id="edu-216-sb" translatesAutoresizingMaskIntoConstraints="NO" tag="null">
-                                                <rect key="frame" x="0" y="150" width="353" height="48" />
+                                                <rect key="frame" x="0" y="279" width="353" height="48" />
                                                 <color key="backgroundColor" red="0.92" green="0.94" blue="0.96" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="48" id="edu-218-sb" priority="999" />
@@ -783,8 +783,26 @@
                                                     <action selector="alternarAudio:" destination="Edu-Le-c01" eventType="touchUpInside" id="edu-219-sb" />
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" buttonType="system" id="edu-video-btn" translatesAutoresizingMaskIntoConstraints="NO">
+                                                <rect key="frame" x="0" y="339" width="353" height="48" />
+                                                <color key="backgroundColor" red="0.92" green="0.94" blue="0.96" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
+                                                <constraints>
+                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="48" id="edu-video-alt" priority="999" />
+                                                </constraints>
+                                                <state key="normal" title="Ver video">
+                                                    <color key="titleColor" red="0.137" green="0.212" blue="0.267" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                        <real key="value" value="12" />
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="reproducirVideo:" destination="Edu-Le-c01" eventType="touchUpInside" id="edu-video-act" />
+                                                </connections>
+                                            </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="¿Qué es una serie?" textAlignment="center" numberOfLines="0" id="edu-220-sb" translatesAutoresizingMaskIntoConstraints="NO">
-                                                <rect key="frame" x="0" y="210" width="353" height="48" />
+                                                <rect key="frame" x="0" y="399" width="353" height="48" />
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="edu-222-sb" priority="999" />
                                                 </constraints>
@@ -792,7 +810,7 @@
                                                 <color key="textColor" red="0.137" green="0.212" blue="0.267" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Una serie es una historia audiovisual dividida en episodios." textAlignment="center" numberOfLines="0" id="edu-223-sb" translatesAutoresizingMaskIntoConstraints="NO">
-                                                <rect key="frame" x="0" y="270" width="353" height="48" />
+                                                <rect key="frame" x="0" y="459" width="353" height="48" />
                                                 <constraints>
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="36" id="edu-225-sb" priority="999" />
                                                 </constraints>
@@ -1173,5 +1191,6 @@
         <image name="tv.fill" catalog="system" width="128" height="128" />
         <image name="scope" catalog="system" width="128" height="128" />
         <image name="flag.checkered" catalog="system" width="128" height="128" />
+        <image name="leccion_series" width="640" height="360" />
     </resources>
 </document>

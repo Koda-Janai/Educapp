@@ -1,4 +1,5 @@
 import AVFoundation
+import AVKit
 import UIKit
 
 class Temas: PantallaEducapp {
@@ -50,28 +51,50 @@ final class Leccion: PantallaEducapp {
         guard let tema = tema else { return }
         lector.delegate = self
         categoria.text = tema.nombre
-        imagen.image = UIImage(systemName: tema.icono)
+        imagen.image = UIImage(named: tema.nombreMultimedia) ?? UIImage(systemName: tema.icono)
+        imagen.accessibilityLabel = "Portada de \(tema.nombre)"
+        imagen.isAccessibilityElement = true
         titulo.text = tema.titulo
         lectura.text = tema.leccion
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        lector.stopSpeaking(at: .immediate)
-        actualizarAudio("Escuchar lección")
+        detenerLectura()
+    }
+
+    @IBAction private func reproducirVideo(_ sender: UIButton) {
+        guard let tema = tema else { return }
+        let nombre = tema.nombreMultimedia
+        let archivo = Bundle.main.url(forResource: nombre, withExtension: "mp4")
+            ?? Bundle.main.url(forResource: nombre, withExtension: "mp4", subdirectory: "Multimedia")
+        guard let archivo = archivo else {
+            aviso("Video no disponible", "No se encontró el video de esta lección.")
+            return
+        }
+
+        detenerLectura()
+        let reproductor = AVPlayerViewController()
+        let player = AVPlayer(url: archivo)
+        reproductor.player = player
+        present(reproductor, animated: true) { player.play() }
     }
 
     @IBAction private func alternarAudio(_ sender: UIButton) {
         guard let tema = tema else { return }
         if lector.isSpeaking {
-            lector.stopSpeaking(at: .immediate)
-            actualizarAudio("Escuchar lección")
+            detenerLectura()
         } else {
             let texto = AVSpeechUtterance(string: "\(tema.titulo). \(tema.leccion)")
-            texto.voice = AVSpeechSynthesisVoice(language: "es-MX")
+            texto.voice = AVSpeechSynthesisVoice(language: "es-MX") ?? AVSpeechSynthesisVoice(language: "es-ES")
             lector.speak(texto)
             actualizarAudio("Detener lectura")
         }
+    }
+
+    private func detenerLectura() {
+        lector.stopSpeaking(at: .immediate)
+        actualizarAudio("Escuchar lección")
     }
 
     private func actualizarAudio(_ titulo: String) {

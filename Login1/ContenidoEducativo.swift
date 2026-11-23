@@ -1,6 +1,7 @@
 struct Tema {
     let nombre: String
     let icono: String
+    let nombreMultimedia: String
     let color: UInt32
     let titulo: String
     let leccion: String
@@ -11,7 +12,7 @@ struct Tema {
 
     static let catalogo = [
         Tema(
-            nombre: "Series", icono: "tv.fill", color: 0xF6CE60,
+            nombre: "Series", icono: "tv.fill", nombreMultimedia: "leccion_series", color: 0xF6CE60,
             titulo: "¿Qué es una serie?",
             leccion: "Una serie es una historia audiovisual dividida en episodios. Los episodios pueden agruparse en temporadas, que organizan etapas de la historia o conjuntos de capítulos.",
             pregunta: "¿Cómo suele llamarse el conjunto de episodios de una etapa de la serie?",
@@ -19,7 +20,7 @@ struct Tema {
             explicacion: "Una temporada reúne episodios. Una escena es una parte de un episodio y un tráiler es un avance."
         ),
         Tema(
-            nombre: "Historia", icono: "building.columns.fill", color: 0xE8754C,
+            nombre: "Historia", icono: "building.columns.fill", nombreMultimedia: "leccion_historia", color: 0xE8754C,
             titulo: "El origen de las civilizaciones",
             leccion: "La agricultura favoreció los asentamientos permanentes. Al producir y almacenar alimentos, algunas comunidades pudieron sostener poblaciones mayores y especializar sus oficios.",
             pregunta: "¿Qué actividad favoreció los asentamientos permanentes?",
@@ -27,7 +28,7 @@ struct Tema {
             explicacion: "El cultivo y el almacenamiento de alimentos hicieron posible que muchas comunidades se quedaran en un lugar."
         ),
         Tema(
-            nombre: "Deportes", icono: "soccerball", color: 0x55BFAE,
+            nombre: "Deportes", icono: "soccerball", nombreMultimedia: "leccion_deportes", color: 0x55BFAE,
             titulo: "El fútbol",
             leccion: "En el fútbol juegan dos equipos. En la modalidad de once, cada equipo comienza normalmente con once futbolistas, entre ellos un portero. Gana quien marca más goles.",
             pregunta: "¿Cuántos jugadores tiene normalmente cada equipo al empezar un partido de fútbol once?",
@@ -35,7 +36,7 @@ struct Tema {
             explicacion: "El fútbol once se juega normalmente con once integrantes por equipo, incluido el portero."
         ),
         Tema(
-            nombre: "Química", icono: "flask.fill", color: 0xB7CC51,
+            nombre: "Química", icono: "flask.fill", nombreMultimedia: "leccion_quimica", color: 0xB7CC51,
             titulo: "Los átomos",
             leccion: "Un átomo contiene un núcleo rodeado por electrones. El número de protones del núcleo identifica el elemento químico, aunque el número de neutrones o electrones pueda variar.",
             pregunta: "¿Qué partícula determina el número atómico de un elemento?",
@@ -43,7 +44,7 @@ struct Tema {
             explicacion: "El número atómico corresponde al número de protones del núcleo."
         ),
         Tema(
-            nombre: "Cine", icono: "film.fill", color: 0xC8D4DE,
+            nombre: "Cine", icono: "film.fill", nombreMultimedia: "leccion_cine", color: 0xC8D4DE,
             titulo: "La producción cinematográfica",
             leccion: "En una película, la preproducción organiza el guion, el reparto y el rodaje. Después de filmar, la posproducción incluye el montaje de las imágenes y el trabajo de sonido.",
             pregunta: "¿En qué etapa se realiza habitualmente el montaje de las imágenes?",
@@ -51,7 +52,7 @@ struct Tema {
             explicacion: "El montaje reúne y ordena el material filmado durante la posproducción."
         ),
         Tema(
-            nombre: "Música", icono: "music.note", color: 0xF4AD66,
+            nombre: "Música", icono: "music.note", nombreMultimedia: "leccion_musica", color: 0xF4AD66,
             titulo: "La familia de los instrumentos",
             leccion: "Los instrumentos se pueden agrupar por cómo producen sonido. Una guitarra hace vibrar cuerdas, una flauta pone en vibración una columna de aire y un tambor usa una membrana.",
             pregunta: "¿A qué familia pertenece la guitarra?",
@@ -59,7 +60,7 @@ struct Tema {
             explicacion: "La guitarra suena al hacer vibrar sus cuerdas."
         ),
         Tema(
-            nombre: "Filosofía", icono: "lightbulb.fill", color: 0x78BC63,
+            nombre: "Filosofía", icono: "lightbulb.fill", nombreMultimedia: "leccion_filosofia", color: 0x78BC63,
             titulo: "¿Qué es la filosofía?",
             leccion: "La filosofía examina preguntas sobre temas como la realidad, el conocimiento y la conducta. La ética estudia cómo razonar sobre lo correcto, las decisiones y la forma de vivir.",
             pregunta: "¿Qué rama estudia las preguntas sobre cómo debemos actuar?",
@@ -67,7 +68,7 @@ struct Tema {
             explicacion: "La ética examina las razones para actuar de cierta manera y los criterios para evaluar la conducta."
         ),
         Tema(
-            nombre: "Arte", icono: "paintpalette.fill", color: 0xE78BB7,
+            nombre: "Arte", icono: "paintpalette.fill", nombreMultimedia: "leccion_arte", color: 0xE78BB7,
             titulo: "Las técnicas y materiales del arte",
             leccion: "Las artes visuales emplean técnicas y materiales distintos. Un collage se forma al combinar y fijar elementos como recortes de papel, fotografías o tela sobre una superficie.",
             pregunta: "¿Qué técnica consiste en fijar recortes y otros materiales sobre una superficie?",
@@ -75,7 +76,7 @@ struct Tema {
             explicacion: "El collage compone una imagen reuniendo y pegando materiales diferentes."
         ),
         Tema(
-            nombre: "Matemáticas", icono: "function", color: 0xE55762,
+            nombre: "Matemáticas", icono: "function", nombreMultimedia: "leccion_matematicas", color: 0xE55762,
             titulo: "Las operaciones básicas",
             leccion: "La multiplicación representa la suma repetida cuando trabajamos con números naturales. Por ejemplo, tres grupos de cuatro objetos suman doce objetos.",
             pregunta: "¿Cuánto es 3 × 4?",
@@ -83,7 +84,7 @@ struct Tema {
             explicacion: "Tres grupos de cuatro equivalen a 4 + 4 + 4, que suma 12."
         ),
         Tema(
-            nombre: "Videojuegos", icono: "gamecontroller.fill", color: 0x9B81D3,
+            nombre: "Videojuegos", icono: "gamecontroller.fill", nombreMultimedia: "leccion_videojuegos", color: 0x9B81D3,
             titulo: "Los géneros de videojuegos",
             leccion: "Los géneros describen qué hace el jugador. En un juego de plataformas, desplazarse y saltar entre superficies suele ser central. En un juego de estrategia, pesa más la planificación.",
             pregunta: "¿Qué género suele centrarse en saltar entre superficies?",
@@ -91,7 +92,7 @@ struct Tema {
             explicacion: "El desplazamiento y el salto entre superficies son mecánicas típicas de los juegos de plataformas."
         ),
         Tema(
-            nombre: "Física", icono: "atom", color: 0x4CAAD3,
+            nombre: "Física", icono: "atom", nombreMultimedia: "leccion_fisica", color: 0x4CAAD3,
             titulo: "El movimiento y la velocidad",
             leccion: "La rapidez media es la distancia total recorrida dividida entre el tiempo empleado. Si se recorren 100 metros en 20 segundos, la rapidez media es de 5 metros por segundo.",
             pregunta: "¿Cuál es la rapidez media al recorrer 100 metros en 20 segundos?",

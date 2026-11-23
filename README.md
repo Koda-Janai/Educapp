@@ -23,3 +23,9 @@ Para ejecutar en un iPhone físico con iOS 26.5 o posterior, conecta el disposit
 ## Verificación
 
 [GitHub Actions](https://github.com/Koda-Janai/Educapp/actions) compila el proyecto en macOS con Xcode 26.6 y con el mínimo de iOS configurado en el proyecto. Instala y abre la app en un iPhone 17 con iOS 26.5 y comprueba que el proceso siga activo. El [plan de cierre](PLAN_CIERRE.md) incluye las pruebas manuales de registro, Llavero, lecciones y quiz.
+
+## Multimedia de las lecciones
+
+Cada categoría incluye una portada, un video de repaso y lectura por voz en español. En la escena **Leccion** de `Main.storyboard` puedes editar el Image View y los botones **Escuchar lección** y **Ver video**.
+
+Para sustituir un recurso, conserva el nombre indicado en `nombreMultimedia` en `ContenidoEducativo.swift`. Las portadas están en `Assets.xcassets` y los videos MP4 en `Login1/Multimedia`. Los videos son cápsulas de tres tarjetas sin audio y pueden abrirse sin conexión. El botón de lectura usa la voz de iOS y se detiene al mostrar el video.
